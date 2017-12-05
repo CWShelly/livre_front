@@ -4,26 +4,18 @@ import Users from './components/users/index.js'
 import Allusers from './components/admin/index.js'
 import Book from './components/books/index.js'
 import SignIn from './components/users/SignIn.js'
-import Nav from "./components/nav/index.js"
+import Welcome from "./components/welcome/index.js"
 import Shelf from "./components/users/Shelf.js"
 import SingleBook from './components/books/SingleBook.js'
-
-
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 class App extends React.Component{
-    constructor(props){
-        super(props)
-        this.state={}
-    }
-
     render(){
         return(
             <div>
             <Router>
             <div>
                 <ul>
-
                 <li><Link to="/admin">View All Users </Link> </li>
                 <li><Link to="/create">Create User</Link> </li>
                 <li><Link to="/login">Sign In </Link> </li>
@@ -31,7 +23,7 @@ class App extends React.Component{
                 </ul>
                 <hr />
 
-                <Route exact path="/" component = {Nav} />
+                <Route exact path="/" component = {Welcome} />
                 <Route path="/admin" component = {Allusers} />
                 <Route path = "/create" component = {Users}/>
                 <Route path = "/login" component={SignIn} />
