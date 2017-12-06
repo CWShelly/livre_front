@@ -1,6 +1,5 @@
 import React from 'react';
 import Request from 'superagent';
-import Shelf from "./Shelf.js"
 import { Redirect, Route} from 'react-router-dom'
 const url = 'http://localhost:4000/api/users';
 

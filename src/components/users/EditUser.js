@@ -28,10 +28,7 @@ class EditUserForm extends React.Component{
 }
 
 export default class EditUser extends React.Component{
-  constructor(props){
-    super(props)
-
-  }
+ 
   editUser(book){
     Request.get(url + "/" + this.props.myEmail)
     .then(response=>{

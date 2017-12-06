@@ -17,12 +17,14 @@ export default class Shelf extends React.Component{
 
 
 
+
     getMyBooks(){
-      console.log('getting your books');
+      console.log('GETTING YOUR BOOKS');
         Request.get(url)
             .then(response=>{
               let email_address = localStorage.getItem('email_address')
                 let name = localStorage.getItem('name')
+
                 const availableBooks = response.body.filter(x=>x.ownerEmail !== email_address && x.available === true)
 
                 const owner = response.body.filter(x=>x.ownerEmail === email_address)
@@ -35,6 +37,9 @@ export default class Shelf extends React.Component{
                     }
                     return x
                   })
+
+                  let ownerArray = owner.slice();
+
                 const loanedBooks =response.body.filter(x=>x.ownerEmail === email_address && x.currentlyWith !== name )
                 const borrowedBooks = response.body.filter(x=>x.ownerEmail !== email_address && x.currentlyWith === name )
                 if(owner.length !== 0){
@@ -50,7 +55,6 @@ export default class Shelf extends React.Component{
                       display: "none",
                       history: this.props.history,
                       myEmail: email_address
-
                   })
                 }
                 else{
@@ -70,6 +74,24 @@ export default class Shelf extends React.Component{
             })
     }
 
+        getNoCall(x){
+          console.log('x', x);
+          console.log('GETTING YOUR BOOKS WITHOUT CALLING');
+          // console.log(this.state);
+          let bookObject = this.state.mybooks.filter(a=>a.id === x)
+          console.log(bookObject);
+
+          let bookObjectIndex = this.state.mybooks.indexOf(bookObject)
+
+          let mybooksCopy = this.state.mybooks.slice()
+          mybooksCopy.splice(bookObjectIndex, 1)
+
+          this.setState({
+            mybooks: mybooksCopy
+          })
+
+
+        }
     search(e){
         e.preventDefault()
         if(this.refs.search.value === ''){
@@ -138,7 +160,8 @@ export default class Shelf extends React.Component{
             .then(response=>console.log(response))
             .catch(error=>console.log(error))
             .then(()=>{
-              this.getMyBooks()
+              // this.getMyBooks()
+              this.getNoCall(x)
 
             })
             .then(error=>console.log(error))
@@ -194,6 +217,7 @@ export default class Shelf extends React.Component{
             this.props.history.push("/login");
         }
     }
+
     render(){
       console.log(this.props);
 
@@ -208,7 +232,7 @@ export default class Shelf extends React.Component{
             <Router>
             <div>
            <Link to="/book">Edit Book</Link>
-               <Route path="/book"    render={(props) =>  <SingleBook   myId = {book.id}   getMyBooks={this.getMyBooks.bind(this)} history={this.state.history} /> } />
+               <Route path="/book"    render={(props) =>  <SingleBook myId = {book.id}  getMyBooks={this.getMyBooks.bind(this)} history={this.state.history} /> } />
                </div>
             </Router>
                   </li>
@@ -227,28 +251,22 @@ export default class Shelf extends React.Component{
         })
         return(
             <div>
-                <p>Welcome, {name}</p>Not you? <a href="#" onClick={this.logOut.bind(this)}
-                  > Logout</a>
-
+                <p>Welcome, {name}</p>Not you? Or maybe it's you, but you'd like to not be here?<a href="#" onClick={this.logOut.bind(this)}> Logout</a>
 
                   <Router>
                   <div>
-                 <Link to="/editUserInfo">Edit User</Link>
+                  <Link to="/editUserInfo">Edit User</Link>
                      <Route path="/editUserInfo"    render={(props) =>  <EditUser  myEmail = {this.state.myEmail}   getMyBooks={this.getMyBooks.bind(this)} history={this.state.history} /> } />
                      </div>
                   </Router>
 
-
-
                   <h1 style={{"display": this.state.display}}>Hello!</h1>
-
                   <p>{this.state.empty}</p>
                   {this.state.errorMessage}
                   <Book getMyBooks={this.getMyBooks.bind(this)} />
                   Your books:
 
                 <ol>{books}</ol>
-
 
                  <hr />
                  Books that I am borrowing:

@@ -24,7 +24,6 @@ class EditBook extends React.Component{
   render(){
     return(
       <form onSubmit={this.edit.bind(this)}>
-
           <input type="text" ref="title" placeholder="Title"/>
           <input type="text" ref="author" placeholder="Author" />
           <button type="submit">submit</button>
@@ -34,12 +33,8 @@ class EditBook extends React.Component{
 }
 
 export default class SingleBook extends React.Component{
-  constructor(props){
-    super(props)
-
-  }
+ 
   editBook(book){
-
     Request.put(url + "/" + this.props.myId, book)
     .then(response=>console.log(response))
     .catch(error=>console.log(error))
@@ -52,6 +47,7 @@ export default class SingleBook extends React.Component{
     })
     .catch(error=>console.log(error))
   }
+
   render(){
     return(
       <div>
