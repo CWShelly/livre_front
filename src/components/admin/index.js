@@ -21,8 +21,8 @@ export default class Allusers extends React.Component{
     }
 
     getUser(x){
-        Request.get(url + '/' + x).
-        then(response=>console.log(response.body))
+        Request.get(url + '/' + x)
+        .then(response=>console.log(response.body))
     }
 
     componentWillMount(){

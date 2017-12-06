@@ -32,7 +32,6 @@ class NewBook extends React.Component{
           <div>
 
             <form onSubmit={this.create.bind(this)}>
-
                 <input type="text" ref="title" placeholder="Title"/>
                 <input type="text" ref="author" placeholder="Author" />
                 <input type="text" ref="available" placeholder="Available"/>
