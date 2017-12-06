@@ -75,22 +75,13 @@ export default class Shelf extends React.Component{
     }
 
         getNoCall(x){
-          console.log('x', x);
-          console.log('GETTING YOUR BOOKS WITHOUT CALLING');
-          // console.log(this.state);
           let bookObject = this.state.mybooks.filter(a=>a.id === x)
-          console.log(bookObject);
-
           let bookObjectIndex = this.state.mybooks.indexOf(bookObject)
-
           let mybooksCopy = this.state.mybooks.slice()
           mybooksCopy.splice(bookObjectIndex, 1)
-
           this.setState({
             mybooks: mybooksCopy
           })
-
-
         }
     search(e){
         e.preventDefault()
@@ -160,11 +151,19 @@ export default class Shelf extends React.Component{
             .then(response=>console.log(response))
             .catch(error=>console.log(error))
             .then(()=>{
-              // this.getMyBooks()
-              this.getNoCall(x)
+
+              // this.getNoCall(x)
+
+              let bookObject = this.state.mybooks.filter(a=>a.id === x)
+              let bookObjectIndex = this.state.mybooks.indexOf(bookObject)
+              let mybooksCopy = this.state.mybooks.slice()
+              mybooksCopy.splice(bookObjectIndex, 1)
+              this.setState({
+                mybooks: mybooksCopy
+              })
 
             })
-            .then(error=>console.log(error))
+            .catch(error=>console.log(error))
           }
           else{
             this.setState({errorMessage: "You can't remove a book that is currently being borrowed."})
