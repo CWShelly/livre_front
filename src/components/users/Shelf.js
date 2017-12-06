@@ -74,15 +74,7 @@ export default class Shelf extends React.Component{
             })
     }
 
-        getNoCall(x){
-          let bookObject = this.state.mybooks.filter(a=>a.id === x)
-          let bookObjectIndex = this.state.mybooks.indexOf(bookObject)
-          let mybooksCopy = this.state.mybooks.slice()
-          mybooksCopy.splice(bookObjectIndex, 1)
-          this.setState({
-            mybooks: mybooksCopy
-          })
-        }
+
     search(e){
         e.preventDefault()
         if(this.refs.search.value === ''){
@@ -151,9 +143,6 @@ export default class Shelf extends React.Component{
             .then(response=>console.log(response))
             .catch(error=>console.log(error))
             .then(()=>{
-
-              // this.getNoCall(x)
-
               let bookObject = this.state.mybooks.filter(a=>a.id === x)
               let bookObjectIndex = this.state.mybooks.indexOf(bookObject)
               let mybooksCopy = this.state.mybooks.slice()
@@ -177,16 +166,33 @@ export default class Shelf extends React.Component{
     }
 
     changeAvailability(x, available, currentlyWith){
+      console.log(x);
       if(currentlyWith === localStorage.getItem('name')){
       let borrowedBook = {
         available: !available
       }
 
+
       Request.put(url + '/' + x, borrowedBook )
       .then(response=>console.log(response))
       .catch(error=>console.log(error))
       .then(()=>{
-        this.getMyBooks()
+        let bookObject = this.state.mybooks.filter(a=>a.id === x)
+        let bookObjectIndex = this.state.mybooks.indexOf(bookObject[0])
+        let mybooksCopy = this.state.mybooks.slice()
+        mybooksCopy[bookObjectIndex]['available'] = !mybooksCopy[bookObjectIndex]['available']
+        if(mybooksCopy[bookObjectIndex]['available'] === true){
+          mybooksCopy[bookObjectIndex]['isAvailable'] = "Available"
+        }
+        else{
+              mybooksCopy[bookObjectIndex]['isAvailable'] = "Not Available"
+        }
+
+ 
+        this.setState({
+          mybooks: mybooksCopy
+        })
+
       })
 
     }
